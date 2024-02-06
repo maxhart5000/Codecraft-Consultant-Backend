@@ -20,7 +20,7 @@ import java.util.Set;
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     public MyDataRestConfig(EntityManager entityManager) {
@@ -31,10 +31,10 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
         HttpMethod[] theUnsupportedActions = {HttpMethod.DELETE, HttpMethod.PUT, HttpMethod.POST};
-        Class[] theClasses = {Product.class, ProductCategory.class, Country.class, State.class};
+        Class<?>[] theClasses = {Product.class, ProductCategory.class, Country.class, State.class};
 
         // Disable HTTP methods for entities: PUT, POST and DELETE
-        for (Class tempClass : theClasses) {
+        for (Class<?> tempClass : theClasses) {
             disableHttpMethods(config, theUnsupportedActions, tempClass);
         }
 
@@ -42,11 +42,11 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         exposeIds(config);
     }
 
-    private static void disableHttpMethods(RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions, Class theClass) {
+    private static void disableHttpMethods(RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions, Class<?> theClass) {
         config.getExposureConfiguration()
                 .forDomainType(theClass)
-                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)))
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
+                .withItemExposure(((metadata, httpMethods) -> httpMethods.disable(theUnsupportedActions)))
+                .withCollectionExposure((metadata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
     }
 
     private void exposeIds(RepositoryRestConfiguration config) {
@@ -57,15 +57,17 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         Set<EntityType<?>> entityTypes = entityManager.getMetamodel().getEntities();
 
         // Create an array list of entity types
-        List<Class> entityClasses = new ArrayList<>();
+        List<Class<?>> entityClasses = new ArrayList<>();
 
         // Get the entity types for the entities
-        for (EntityType tempEntityType : entityTypes) {
+        for (EntityType<?> tempEntityType : entityTypes) {
             entityClasses.add(tempEntityType.getJavaType());
         }
 
         // Expose the entity ids for the array of entity/domain types
-        Class[] domainTypes = entityClasses.toArray(new Class[0]);
+        Class<?>[] domainTypes = entityClasses.toArray(new Class[0]);
         config.exposeIdsFor(domainTypes);
+
+
     }
 }
