@@ -7,6 +7,7 @@ import com.hartcode.ecommerce.entity.State;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -20,6 +21,9 @@ import java.util.Set;
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
+    @Value("${allowed.origins}")
+    private String[] theAllowedOrigins;
+
     private final EntityManager entityManager;
 
     @Autowired
@@ -30,7 +34,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
-        HttpMethod[] theUnsupportedActions = {HttpMethod.DELETE, HttpMethod.PUT, HttpMethod.POST};
+        HttpMethod[] theUnsupportedActions = {HttpMethod.DELETE, HttpMethod.PUT, HttpMethod.POST, HttpMethod.PATCH};
         Class<?>[] theClasses = {Product.class, ProductCategory.class, Country.class, State.class};
 
         // Disable HTTP methods for entities: PUT, POST and DELETE
@@ -40,6 +44,9 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         // Call an internal helper method
         exposeIds(config);
+
+        // Configure cors mapping
+        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
     }
 
     private static void disableHttpMethods(RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions, Class<?> theClass) {
@@ -67,7 +74,5 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         // Expose the entity ids for the array of entity/domain types
         Class<?>[] domainTypes = entityClasses.toArray(new Class[0]);
         config.exposeIdsFor(domainTypes);
-
-
     }
 }
