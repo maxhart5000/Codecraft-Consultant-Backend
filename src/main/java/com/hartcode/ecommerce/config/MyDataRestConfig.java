@@ -1,9 +1,6 @@
 package com.hartcode.ecommerce.config;
 
-import com.hartcode.ecommerce.entity.Country;
-import com.hartcode.ecommerce.entity.Product;
-import com.hartcode.ecommerce.entity.ProductCategory;
-import com.hartcode.ecommerce.entity.State;
+import com.hartcode.ecommerce.entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +32,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
         HttpMethod[] theUnsupportedActions = {HttpMethod.DELETE, HttpMethod.PUT, HttpMethod.POST, HttpMethod.PATCH};
-        Class<?>[] theClasses = {Product.class, ProductCategory.class, Country.class, State.class};
+        Class<?>[] theClasses = {Product.class, ProductCategory.class, Country.class, State.class, Order.class};
 
         // Disable HTTP methods for entities: PUT, POST and DELETE
         for (Class<?> tempClass : theClasses) {
