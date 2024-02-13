@@ -1,46 +1,42 @@
--- -----------------------------------------------------
--- Schema full-stack-ecommerce
--- -----------------------------------------------------
+-- Schema codecraft_consulting
 
-USE `full-stack-ecommerce`;
+-- Use the codecraft_consulting schema
+USE `codecraft_consulting`;
 
---
--- Prep work
---
+-- Disable foreign key checks temporarily
 SET FOREIGN_KEY_CHECKS=0;
+
+-- Drop tables if they exist
 DROP TABLE IF EXISTS `order_item`;
 DROP TABLE IF EXISTS `orders`;
 DROP TABLE IF EXISTS `customer`;
 DROP TABLE IF EXISTS `address`;
+
+-- Enable foreign key checks
 SET FOREIGN_KEY_CHECKS=1;
 
---
 -- Table structure for table `address`
---
 CREATE TABLE `address` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `city` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
   `street` varchar(255) DEFAULT NULL,
-  `zip_code` varchar(255) DEFAULT NULL,
+  `post_code` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
 -- Table structure for table `customer`
---
 CREATE TABLE `customer` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
 -- Table structure for table `orders`
---
 CREATE TABLE `orders` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `order_tracking_number` varchar(255) DEFAULT NULL,
@@ -61,9 +57,7 @@ CREATE TABLE `orders` (
   CONSTRAINT `FK_shipping_address_id` FOREIGN KEY (`shipping_address_id`) REFERENCES `address` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
 -- Table structure for table `order_items`
---
 CREATE TABLE `order_item` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `image_url` varchar(255) DEFAULT NULL,
@@ -73,6 +67,5 @@ CREATE TABLE `order_item` (
   `product_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `K_order_id` (`order_id`),
-  CONSTRAINT `FK_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
-  CONSTRAINT `FK_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+  CONSTRAINT `FK_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

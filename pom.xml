@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.hartcode</groupId>
-	<artifactId>spring-boot-e-commerce</artifactId>
+	<artifactId>spring-boot-application-codecraft</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-boot-e-commerce</name>
-	<description>Spring Boot e-commerce Project</description>
+	<name>spring-boot-application-codecraft</name>
+	<description>Spring Boot Application providing the backend for my Codecraft Consulting website</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

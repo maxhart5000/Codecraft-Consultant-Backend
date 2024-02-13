@@ -1,13 +1,16 @@
-USE `full-stack-ecommerce`;
+-- Schema codecraft_consulting
 
-SET foreign_key_checks = 0;
+-- Use the newly created schema
+USE `codecraft_consulting`;
 
---
--- Table structure for table `country`
---
+-- Disable foreign key checks temporarily
+SET FOREIGN_KEY_CHECKS = 0;
 
+-- Drop tables if they exist
 DROP TABLE IF EXISTS `country`;
+DROP TABLE IF EXISTS `states`;
 
+-- Table structure for table `country`
 CREATE TABLE `country` (
   `id` smallint unsigned NOT NULL,
   `code` varchar(2) DEFAULT NULL,
@@ -15,24 +18,7 @@ CREATE TABLE `country` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
---
--- Data for table `country`
---
-
-INSERT INTO `country` VALUES 
-(1,'BR','Brazil'),
-(2,'CA','Canada'),
-(3,'DE','Germany'),
-(4,'IN','India'),
-(5,'TR','Turkey'),
-(6,'US','United States');
-
---
 -- Table structure for table `state`
---
-
-DROP TABLE IF EXISTS `state`;
-
 CREATE TABLE `state` (
   `id` smallint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -42,11 +28,22 @@ CREATE TABLE `state` (
   CONSTRAINT `fk_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
---
--- Dumping data for table `state`
---
+-- Enable foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO `state` VALUES 
+-- Insert data into country table
+INSERT INTO `country` VALUES
+(1,'BR','Brazil'),
+(2,'CA','Canada'),
+(3,'DE','Germany'),
+(4,'IN','India'),
+(5,'TR','Turkey'),
+(6,'US','United States'),
+(7,'UK','United Kingdom'),
+(8,'SK','South Korea');
+
+-- Insert data into state table
+INSERT INTO `state` VALUES
 (1,'Acre',1),
 (2,'Alagoas',1),
 (3,'Amapá',1),
@@ -269,6 +266,69 @@ INSERT INTO `state` VALUES
 (220,'Van',5),
 (221,'Yalova',5),
 (222,'Yozgat',5),
-(223,'Zonguldak',5);
-
-SET foreign_key_checks = 1;
+(223,'Zonguldak',5),
+(224, 'Bedfordshire', 7),
+(225, 'Berkshire', 7),
+(226, 'Bristol', 7),
+(227, 'Buckinghamshire', 7),
+(228, 'Cambridgeshire', 7),
+(229, 'Cheshire', 7),
+(230, 'City of London', 7),
+(231, 'Cornwall', 7),
+(232, 'Cumbria', 7),
+(233, 'Derbyshire', 7),
+(234, 'Devon', 7),
+(235, 'Dorset', 7),
+(236, 'Durham', 7),
+(237, 'East Riding of Yorkshire', 7),
+(238, 'East Sussex', 7),
+(239, 'Essex', 7),
+(240, 'Gloucestershire', 7),
+(241, 'Greater London', 7),
+(242, 'Greater Manchester', 7),
+(243, 'Hampshire', 7),
+(244, 'Herefordshire', 7),
+(245, 'Hertfordshire', 7),
+(246, 'Isle of Wight', 7),
+(247, 'Kent', 7),
+(248, 'Lancashire', 7),
+(249, 'Leicestershire', 7),
+(250, 'Lincolnshire', 7),
+(251, 'Merseyside', 7),
+(252, 'Norfolk', 7),
+(253, 'Northamptonshire', 7),
+(254, 'Northumberland', 7),
+(255, 'North Yorkshire', 7),
+(256, 'Nottinghamshire', 7),
+(257, 'Oxfordshire', 7),
+(258, 'Rutland', 7),
+(259, 'Shropshire', 7),
+(260, 'Somerset', 7),
+(261, 'South Yorkshire', 7),
+(262, 'Staffordshire', 7),
+(263, 'Suffolk', 7),
+(264, 'Surrey', 7),
+(265, 'Tyne and Wear', 7),
+(266, 'Warwickshire', 7),
+(267, 'West Midlands', 7),
+(268, 'West Sussex', 7),
+(269, 'West Yorkshire', 7),
+(270, 'Wiltshire', 7),
+(271, 'Worcestershire', 7),
+(272, 'Seoul', 8),
+(273, 'Busan', 8),
+(274, 'Daegu', 8),
+(275, 'Incheon', 8),
+(276, 'Gwangju', 8),
+(277, 'Daejeon', 8),
+(278, 'Ulsan', 8),
+(279, 'Sejong', 8),
+(280, 'Gyeonggi', 8),
+(281, 'Gangwon', 8),
+(282, 'Chungbuk', 8),
+(283, 'Chungnam', 8),
+(284, 'Jeonbuk', 8),
+(285, 'Jeonnam', 8),
+(286, 'Gyeongbuk', 8),
+(287, 'Gyeongnam', 8),
+(288, 'Jeju', 8);
